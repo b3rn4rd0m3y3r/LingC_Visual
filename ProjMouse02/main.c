@@ -24,13 +24,19 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) 
 	int j = 0;
 	HWND hWndControl = (HWND)lParam;
 
+	static COLORREF redColor = RGB(255,0,0);
+	static COLORREF blueColor = RGB(0,0,255);
+	static COLORREF greenColor = RGB(0,255,0);
+
 	switch(Message) {
 	   	case WM_MOUSEMOVE:
 	   		hdc = GetDC(hwnd);
-			//GetCursorPos(&ponto); 
-			sprintf(str,"Ponto %d %d",LOWORD(lParam),HIWORD(lParam));
-			SendMessage(staticTextField1,WM_SETTEXT,(WPARAM)strlen(str),str);
-			TextOut(hdc, 15, 150, str, strlen(str));
+	 			xPos = LOWORD(lParam);
+	 			yPos = HIWORD(lParam);
+				sprintf(str,"Ponto %d %d", xPos, yPos);
+				SetPixel(hdc, xPos, yPos,blueColor);
+				SendMessage(staticTextField1,WM_SETTEXT,(WPARAM)strlen(str),str);
+				TextOut(hdc, 15, 150, str, strlen(str));
 			ReleaseDC(hwnd, hdc);
 			break;
 		case WM_PAINT:

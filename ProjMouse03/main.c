@@ -12,6 +12,9 @@ POINT ponto;
 	WPARAM wParam // Handle to a display context (DC).
 	LPARAM lParam; // Handle to a child window (control).
 */
+	static COLORREF redColor = RGB(255,0,0);
+	static COLORREF blueColor = RGB(0,0,255);
+	static COLORREF greenColor = RGB(0,255,0);
 LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 	
    	PAINTSTRUCT ps;
@@ -24,22 +27,32 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) 
 	int j = 0;
 	HWND hWndControl = (HWND)lParam;
 
+
+
 	switch(Message) {
 	   	case WM_MOUSEMOVE:
-	   		hdc = GetDC(hwnd);
-			//GetCursorPos(&ponto); 
-			sprintf(str,"Ponto %d %d",LOWORD(lParam),HIWORD(lParam));
-			SendMessage(staticTextField1,WM_SETTEXT,(WPARAM)strlen(str),str);
-			TextOut(hdc, 15, 150, str, strlen(str));
-			ReleaseDC(hwnd, hdc);
+	   		//hdc = GetDC(hwnd);
+	 			xPos = LOWORD(lParam);
+	 			yPos = HIWORD(lParam);
+				sprintf(str,"Ponto %d %d", xPos, yPos);
+				SendMessage(staticTextField1,WM_SETTEXT,(WPARAM)strlen(str),str);
+				SendMessage(hwnd,WM_PAINT,xPos,yPos);
+				//SetPixel(hdc, xPos, yPos,blueColor);
+			//TextOut(hdc, 15, 150, str, strlen(str));
+			//ReleaseDC(hwnd, hdc);
 			break;
 		case WM_PAINT:
 	      	hdc = BeginPaint(hwnd, &ps);
-
+			EndPaint(hwnd, &ps);
+			//------------------------
+	      	hdc = GetDC(hwnd);
+			xPos = (int)wParam;
+			yPos = (int)lParam;
 	      	SetTextColor(hdc, RGB(255, 0, 0));
 			TextOut(hdc, 15, 80, greeting, strlen(greeting));
-
-	      	EndPaint(hwnd, &ps);
+			SetPixel(hdc, xPos, yPos,blueColor);
+			ReleaseDC(hwnd, hdc);
+	      	
 	      	break;
 			  		
 		/* Upon destruction, tell the main thread to stop */
