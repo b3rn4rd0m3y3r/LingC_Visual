@@ -1,0 +1,15 @@
+#include "menu.h"
+
+IDR_MYMENU MENU
+BEGIN
+POPUP "&File"
+BEGIN
+MENUITEM "&New", IDM_FILE_NEW
+END
+
+POPUP "&Stuff"
+BEGIN
+MENUITEM "&Go", ID_STUFF_GO
+MENUITEM "G&o Somewhere else", 0, GRAYED
+END
+END
