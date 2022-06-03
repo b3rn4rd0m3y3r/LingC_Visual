@@ -53,6 +53,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) 
 		            MessageBox(hwnd, "Botao 2 foi clicado / WM_COMMAND", "Tem", MB_OK | MB_ICONINFORMATION);
 		            //return 0;
 		          	break;
+		        // Opção de menu  	
 				case IDM_FILE_NEW:
 					MessageBox(hwnd, "File new", "Menu", MB_OK | MB_ICONINFORMATION);
 					break;				
@@ -73,16 +74,17 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) 
 			break;
 		}
 	    case WM_CREATE:
-
-hMenubar = CreateMenu();
-hMenu = CreateMenu();
-
-AppendMenuW(hMenu, MF_STRING, IDM_FILE_NEW, L"&New");
-AppendMenuW(hMenu, MF_STRING, IDM_FILE_OPEN, L"&Open");
-AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&File");
-
-SetMenu(hwnd, hMenubar);
-//InsertMenuW(hMenubar, 0, MF_BYPOSITION | MF_STRING, MF_POPUP, L"ItemA");
+			/* Construção do Menu - Início */
+			hMenubar = CreateMenu();
+			hMenu = CreateMenu();
+			
+			AppendMenuW(hMenu, MF_STRING, IDM_FILE_NEW, L"&New");
+			AppendMenuW(hMenu, MF_STRING, IDM_FILE_OPEN, L"&Open");
+			AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&File");
+			/* Construção do Menu - FIM */
+			// Associa a barra de menu ao "handle" da aplicação Windows
+			SetMenu(hwnd, hMenubar);
+			//InsertMenuW(hMenubar, 0, MF_BYPOSITION | MF_STRING, MF_POPUP, L"ItemA");
 
 	        staticTextField1 = CreateWindow("STATIC", "static1", WS_VISIBLE 
 	         | WS_CHILD, 20, 20, 300, 25, hwnd, NULL, NULL, NULL);
